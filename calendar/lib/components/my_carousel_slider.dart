@@ -1,11 +1,15 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyCarouselSlider extends StatefulWidget {
-  MyCarouselSlider({Key? key}) : super(key: key);
+  const MyCarouselSlider({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyCarouselSliderState createState() => _MyCarouselSliderState();
 }
 
@@ -36,6 +40,14 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
     super.dispose();
   }
 
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,26 +63,17 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
               });
             },
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(40.0),
-                  child: Image.asset("images/img1.jpg", fit: BoxFit.cover),
-                ),
+              _buildImageWithButton(
+                imagePath: "images/img1.jpg",
+                url: "https://example1.com",
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Image.asset("images/img2.png", fit: BoxFit.cover),
-                ),
+              _buildImageWithButton(
+                imagePath: "images/img2.png",
+                url: "https://example2.com",
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Image.asset("images/img3.jpg", fit: BoxFit.cover),
-                ),
+              _buildImageWithButton(
+                imagePath: "images/img3.jpg",
+                url: "https://example3.com",
               ),
             ],
           ),
@@ -89,4 +92,34 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
       ],
     );
   }
+
+  Widget _buildImageWithButton({required String imagePath, required String url}) {
+  return GestureDetector(
+    onTap: () => _launchURL(url),
+    child: Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(40.0),
+            child: Image.asset(
+              imagePath,
+              fit: BoxFit.cover, // Add this line to ensure the image fits perfectly
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 20,
+          right: 20,
+          child: ElevatedButton(
+            onPressed: () => _launchURL(url),
+            child: const Text('Learn More'),
+          ),
+        ),
+      ],
+    ),
+  );
+}
 }
