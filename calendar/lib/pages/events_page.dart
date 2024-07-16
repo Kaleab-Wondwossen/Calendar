@@ -4,8 +4,14 @@ import 'package:calendar/components/my_category_card.dart';
 import 'package:calendar/components/my_nav_bar.dart';
 import 'package:calendar/components/my_passed_events.dart';
 import 'package:calendar/components/my_table_calendar.dart';
+import 'package:calendar/pages/birthday_page.dart';
+import 'package:calendar/pages/match_page.dart';
+import 'package:calendar/pages/meeting_page.dart';
+import 'package:calendar/pages/people_page.dart';
 import 'package:calendar/pages/search_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Events extends StatefulWidget {
@@ -52,7 +58,7 @@ class _EventsState extends State<Events> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SearchPage(Option: "birthday",)));
+                                builder: (context) => const BirthdayPage()));
                       },
                       child: const CategoriesCard(
                         icon: Icons.cake,
@@ -63,32 +69,56 @@ class _EventsState extends State<Events> {
                     const SizedBox(
                       width: 10,
                     ),
-                    const CategoriesCard(
-                      icon: Icons.meeting_room,
-                      text: "Meetings",
-                      backgroundColor: Color.fromARGB(157, 156, 124, 124),
-                      iconColor: Color.fromRGBO(146, 47, 47, 0.963),
-                      subText: "You dont want to miss any of your events!!",
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MeetingPage()));
+                      },
+                      child: const CategoriesCard(
+                        icon: Icons.meeting_room,
+                        text: "Meetings",
+                        backgroundColor: Color.fromARGB(157, 156, 124, 124),
+                        iconColor: Color.fromRGBO(146, 47, 47, 0.963),
+                        subText: "You dont want to miss any of your events!!",
+                      ),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
-                    const CategoriesCard(
-                      icon: Icons.sports_soccer,
-                      text: "Matches",
-                      backgroundColor: Color.fromARGB(157, 164, 163, 207),
-                      iconColor: Color.fromARGB(157, 85, 93, 248),
-                      subText: "Matches and Fixitures",
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MatchPage()));
+                      },
+                      child: const CategoriesCard(
+                        icon: Icons.sports_soccer,
+                        text: "Matches",
+                        backgroundColor: Color.fromARGB(157, 164, 163, 207),
+                        iconColor: Color.fromARGB(157, 85, 93, 248),
+                        subText: "Matches and Fixitures",
+                      ),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
-                    const CategoriesCard(
-                      icon: Icons.person,
-                      text: "People",
-                      backgroundColor: Color.fromARGB(157, 170, 208, 147),
-                      iconColor: Color.fromARGB(255, 107, 255, 74),
-                      subText: "Find, meet and interact with people",
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PeoplePage()));
+                      },
+                      child: const CategoriesCard(
+                        icon: Icons.person,
+                        text: "People",
+                        backgroundColor: Color.fromARGB(157, 170, 208, 147),
+                        iconColor: Color.fromARGB(255, 107, 255, 74),
+                        subText: "Find, meet and interact with people",
+                      ),
                     )
                   ],
                 ),
