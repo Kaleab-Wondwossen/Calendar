@@ -1,9 +1,9 @@
+import 'package:calendar/pages/home_page_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../components/my_nav_bar.dart';
 import '../components/my_profile_screen.dart';
 import '../components/my_setting_screen.dart';
-import 'login_page.dart'; // Import the login page
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -12,7 +12,7 @@ class Profile extends StatelessWidget {
     await FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const Login()),
+      MaterialPageRoute(builder: (context) => const HomePageUser()),
     );
   }
 

@@ -24,10 +24,18 @@ class _EventListState extends State<EventList> {
           final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
           final String currentUserId = firebaseAuth.currentUser!.uid;
 
-          // Filter documents to include only those with the correct user ID
+          // Filter documents to include only those with the correct user ID and future dates
           List<DocumentSnapshot> userDocuments = documents.where((document) {
+            // Check if the event belongs to the current user
             bool isCurrentUserEvent = document['ID'] == currentUserId;
-            return isCurrentUserEvent;
+
+            // Parse event date
+            DateTime eventDate = DateTime.parse(document['Date']);
+
+            // Include events that have eventDate after today
+            bool isFutureEvent = eventDate.isAfter(DateTime.now());
+
+            return isCurrentUserEvent && isFutureEvent;
           }).toList();
 
           // Sort documents by eventDate in ascending order
@@ -38,17 +46,18 @@ class _EventListState extends State<EventList> {
           });
 
           return Padding(
-            padding: const EdgeInsets.only(
-                left: 0), // Adjust the left padding as needed
+            padding: const EdgeInsets.only(left: 0),
             child: Wrap(
               spacing: 10,
               runSpacing: 10,
               children: userDocuments.map((document) {
                 String id = document['EventTitle'];
                 String message = document['EventDescription'];
-                DateTime eventDate = DateTime.parse(document['Date']);
                 String docID = document.id;
                 String date = document['Date'];
+
+                // Parse event date
+                DateTime eventDate = DateTime.parse(document['Date']);
 
                 // Calculate days difference
                 int daysDifference =

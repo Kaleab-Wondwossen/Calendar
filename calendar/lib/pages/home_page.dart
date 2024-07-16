@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 import 'package:calendar/components/my_carousel_slider.dart';
 import 'package:calendar/components/my_nav_bar.dart';
+import 'package:calendar/pages/home_page_user.dart';
 import 'package:calendar/pages/search_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ethiopian_calendar/ethiopian_date_converter.dart';
@@ -13,8 +14,6 @@ import 'package:table_calendar/table_calendar.dart';
 import '../components/my_card_builder.dart';
 import '../model/events.dart';
 import '../services/FireStore/fire_store.dart';
-import 'login_page.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -54,12 +53,14 @@ class _HomePageState extends State<HomePage> {
       today = day;
     });
   }
-  DateTime ethioDate = EthiopianDateConverter.convertToEthiopianDate(DateTime.now());
+
+  DateTime ethioDate =
+      EthiopianDateConverter.convertToEthiopianDate(DateTime.now());
   Future<void> signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const Login()),
+      MaterialPageRoute(builder: (context) => const HomePageUser()),
     );
   }
 
@@ -315,7 +316,8 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               Text(
-                DateFormat('yyyy-MM-dd').format(EthiopianDateConverter.convertToEthiopianDate(today)),
+                DateFormat('yyyy-MM-dd').format(
+                    EthiopianDateConverter.convertToEthiopianDate(today)),
                 style: const TextStyle(
                   fontSize: 20,
                 ),
@@ -431,11 +433,19 @@ class _HomePageState extends State<HomePage> {
                     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
                     final String currentUserId = firebaseAuth.currentUser!.uid;
 
-                    // Filter documents to include only those with the correct user ID
+                    // Filter documents to include only those with the correct user ID and future dates
                     List<DocumentSnapshot> userDocuments =
                         documents.where((document) {
+                      // Check if the event belongs to the current user
                       bool isCurrentUserEvent = document['ID'] == currentUserId;
-                      return isCurrentUserEvent;
+
+                      // Parse event date
+                      DateTime eventDate = DateTime.parse(document['Date']);
+
+                      // Include events that have eventDate after today
+                      bool isFutureEvent = eventDate.isAfter(DateTime.now());
+
+                      return isCurrentUserEvent && isFutureEvent;
                     }).toList();
 
                     // Sort documents by eventDate in ascending order
@@ -446,17 +456,18 @@ class _HomePageState extends State<HomePage> {
                     });
 
                     return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 0), // Adjust the left padding as needed
+                      padding: const EdgeInsets.only(left: 0),
                       child: Wrap(
                         spacing: 10,
                         runSpacing: 10,
                         children: userDocuments.map((document) {
                           String id = document['EventTitle'];
                           String message = document['EventDescription'];
-                          DateTime eventDate = DateTime.parse(document['Date']);
                           String docID = document.id;
                           String date = document['Date'];
+
+                          // Parse event date
+                          DateTime eventDate = DateTime.parse(document['Date']);
 
                           // Calculate days difference
                           int daysDifference =
@@ -473,11 +484,12 @@ class _HomePageState extends State<HomePage> {
                           }
 
                           return CardBuilder(
-                              title: id,
-                              description: message,
-                              color: color,
-                              docId: docID,
-                              date: date);
+                            title: id,
+                            description: message,
+                            color: color,
+                            docId: docID,
+                            date: date,
+                          );
                         }).toList(),
                       ),
                     );
