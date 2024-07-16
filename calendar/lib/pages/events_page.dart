@@ -8,10 +8,7 @@ import 'package:calendar/pages/birthday_page.dart';
 import 'package:calendar/pages/match_page.dart';
 import 'package:calendar/pages/meeting_page.dart';
 import 'package:calendar/pages/people_page.dart';
-import 'package:calendar/pages/search_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Events extends StatefulWidget {

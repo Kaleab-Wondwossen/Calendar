@@ -1,7 +1,4 @@
 import 'package:calendar/firebase_options.dart';
-import 'package:calendar/pages/home_page.dart';
-import 'package:calendar/pages/home_page_user.dart';
-import 'package:calendar/services/AuthServices/auth_gate.dart';
 import 'package:calendar/services/AuthServices/home_gate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
