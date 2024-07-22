@@ -7,23 +7,21 @@ class MyTextField extends StatelessWidget {
   final IconData? leftIcon;
   final IconData? rightIcon;
   final Color? iconColor;
-
+  
   const MyTextField({
     super.key,
     required this.hintText,
     required this.controllers,
     required this.obscureText,
     this.leftIcon,
-    this.rightIcon, 
+    this.rightIcon,
     this.iconColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.0)
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
       child: TextField(
         controller: controllers,
         obscureText: obscureText,
@@ -46,8 +44,18 @@ class MyTextField extends StatelessWidget {
             color: Colors.grey,
             fontSize: 16,
           ),
-          prefixIcon: leftIcon != null ? Icon(leftIcon, color: iconColor,) : null,
-          suffixIcon: rightIcon != null ? Icon(rightIcon, color: iconColor,) : null,
+          prefixIcon: leftIcon != null
+              ? Icon(
+                  leftIcon,
+                  color: iconColor,
+                )
+              : null,
+          suffixIcon: rightIcon != null
+              ? Icon(
+                  rightIcon,
+                  color: iconColor,
+                )
+              : null,
         ),
       ),
     );

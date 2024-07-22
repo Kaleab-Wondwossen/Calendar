@@ -31,13 +31,13 @@ class _MyPassedEventsState extends State<MyPassedEvents> {
           }).toList();
 
           // Filter documents to only include past events
-          List<DocumentSnapshot> pastDocuments = userDocuments.where((document) {
+          List<DocumentSnapshot> pastDocuments =
+              userDocuments.where((document) {
             DateTime eventDate = DateTime.parse(document['Date']);
             // Calculate days difference
             int daysDifference = eventDate.difference(DateTime.now()).inDays;
             return daysDifference < 0; // Filter for past events
           }).toList();
-
           return Padding(
             padding: const EdgeInsets.only(
                 left: 0), // Adjust the left padding as needed
@@ -61,7 +61,7 @@ class _MyPassedEventsState extends State<MyPassedEvents> {
                       // Calculate days difference
                       int daysDifference =
                           eventDate.difference(DateTime.now()).inDays;
-
+                      String docID = document.id;
                       // Determine color based on days difference
                       Color color;
                       if (daysDifference <= 15) {
@@ -75,6 +75,8 @@ class _MyPassedEventsState extends State<MyPassedEvents> {
                         description: message,
                         color: color,
                         date: date,
+                        showEditIcon: false,
+                        docId: docID,
                       );
                     }).toList(),
                   ),

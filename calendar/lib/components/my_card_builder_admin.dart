@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../services/FireStore/fire_store.dart';
 
-class CardBuilder extends StatelessWidget {
-  const CardBuilder({
+class CardBuilderAdmin extends StatelessWidget {
+  const CardBuilderAdmin({
     super.key,
     required this.title,
     required this.description,
@@ -122,7 +122,7 @@ class CardBuilder extends StatelessWidget {
                                     descriptionController.text;
                                 FireStoreServices editService =
                                     FireStoreServices();
-                                editService.updateNote(
+                                editService.updateNoteAdmin(
                                     docId!, newTitle, newDescription);
                                 Navigator.of(context).pop();
                               },
@@ -148,7 +148,7 @@ class CardBuilder extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     FireStoreServices deleteService = FireStoreServices();
-                    deleteService.deleteNote(docId!);
+                    deleteService.deleteNoteAdmin(docId!);
                   },
                   icon: const Icon(
                     Icons.delete,

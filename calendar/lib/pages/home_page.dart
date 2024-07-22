@@ -360,11 +360,11 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(
                           left: 0), // Adjust the left padding as needed
                       child: todaysDocuments.isEmpty
-                          ? const Center(
+                          ? Center(
                               child: Text(
                                 'OOPS!! No events found for today...',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
+                                style: GoogleFonts.acme(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                             )
                           : Wrap(
@@ -396,6 +396,8 @@ class _HomePageState extends State<HomePage> {
                                   description: message,
                                   color: color,
                                   date: date,
+                                  showDeleteIcon: false,
+                                  showEditIcon: false,
                                 );
                               }).toList(),
                             ),
@@ -410,7 +412,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 20,
               ),
-              MyCarouselSlider(),
+              const MyCarouselSlider(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 250, 10),
                 child: Text(
@@ -454,6 +456,15 @@ class _HomePageState extends State<HomePage> {
                       DateTime eventDateB = DateTime.parse(b['Date']);
                       return eventDateA.compareTo(eventDateB);
                     });
+                    if (userDocuments.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "Oops, you have no Upcoming events",
+                          style: GoogleFonts.acme(
+                              fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
+                      );
+                    }
 
                     return Padding(
                       padding: const EdgeInsets.only(left: 0),

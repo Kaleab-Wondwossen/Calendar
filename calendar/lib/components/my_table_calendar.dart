@@ -7,7 +7,8 @@ import '../model/events.dart';
 
 class MyCalendar extends StatefulWidget {
   final double? height;
-  const MyCalendar({super.key, this.height});
+  final CalendarFormat? format;
+  const MyCalendar({super.key, this.height, this.format});
 
   @override
   State<MyCalendar> createState() => _MyCalendarState();
@@ -78,11 +79,11 @@ class _MyCalendarState extends State<MyCalendar> {
           focusedDay: today,
           firstDay: DateTime.utc(2010, 10, 16),
           lastDay: DateTime.utc(2030, 10, 16),
-          calendarFormat: _calendarFormat, // Set the initial format
+          calendarFormat: widget.format ?? _calendarFormat, // Set the initial format
           onFormatChanged: (format) {
             setState(() {
               _calendarFormat =
-                  format; // Update the format when the button is pressed
+                  format ; // Update the format when the button is pressed
             });
           },
         ),

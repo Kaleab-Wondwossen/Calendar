@@ -1,11 +1,10 @@
+import 'package:calendar/components/my_card_builder_admin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-import '../components/my_card_builder.dart';
 import '../model/events.dart';
 import '../services/FireStore/fire_store.dart';
 
@@ -253,7 +252,6 @@ class _AdminAddEventState extends State<AdminAddEvent> {
                           // Calculate days difference
                           int daysDifference =
                               eventDate.difference(DateTime.now()).inDays;
-
                           // Determine color based on days difference
                           Color color;
                           if (daysDifference <= 5) {
@@ -264,7 +262,7 @@ class _AdminAddEventState extends State<AdminAddEvent> {
                             color = const Color.fromARGB(255, 98, 201, 102);
                           }
 
-                          return CardBuilder(
+                          return CardBuilderAdmin(
                             title: id,
                             description: message,
                             color: color,

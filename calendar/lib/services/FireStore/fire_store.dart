@@ -82,6 +82,15 @@ class FireStoreServices {
     });
   }
 
+  //Update: edit notes with a provided doc id
+  Future<void> updateNoteAdmin(String docId, String title, String description) {
+    return adminNotes.doc(docId).update({
+      'EventTitle': title,
+      'EventDescription': description,
+      'timestamp': Timestamp.now()
+    });
+  }
+
   Future<void> updateNoteDynamic(
       String docId, String title, String description) {
     return notesDynamic.doc(docId).update({
@@ -107,6 +116,10 @@ class FireStoreServices {
   //Delete: delete notes with a provided doc id
   Future<void> deleteNote(String docID) {
     return notes.doc(docID).delete();
+  }
+
+   Future<void> deleteNoteAdmin(String docID) {
+    return adminNotes.doc(docID).delete();
   }
 
   Future<void> deleteCollection() async {

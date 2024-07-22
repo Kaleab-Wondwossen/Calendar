@@ -37,7 +37,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
           children: [
             const HeroBanner(),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),

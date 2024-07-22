@@ -39,7 +39,7 @@ class AuthGate extends StatelessWidget {
             );
           }
 
-          if (snapshot.hasData && snapshot.data != null) {
+          if(snapshot.hasData && snapshot.data != null) {
             final String currentUserEmail = snapshot.data!.email!;
             return FutureBuilder<String?>(
               future: _getUserRole(currentUserEmail),

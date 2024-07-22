@@ -57,6 +57,8 @@ class _AdminEventsState extends State<AdminEvents> {
                   color: color,
                   docId: docID,
                   date: date,
+                  showDeleteIcon: false,
+                  showEditIcon: false,
                 );
               }).toList(),
             ),

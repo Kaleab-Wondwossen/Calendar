@@ -170,7 +170,7 @@ class _ConverterPageState extends State<ConverterPage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
-            label: 'Home',
+            label: 'Calendar'
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.change_circle),

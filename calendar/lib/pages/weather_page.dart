@@ -1,6 +1,7 @@
 import 'package:calendar/model/consts.dart';
 import 'package:calendar/pages/home_page_user.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/weather.dart';
 
@@ -32,10 +33,20 @@ class _WeatherPageState extends State<WeatherPage> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomePageUser()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HomePageUser()));
             },
             icon: const Icon(Icons.arrow_back_ios)),
+        title: Text(
+          "Weather",
+          style: GoogleFonts.acme(
+            fontSize: 25,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+        ),
       ),
       body: _buildUI(),
     );
@@ -57,7 +68,7 @@ class _WeatherPageState extends State<WeatherPage> {
         children: [
           _locationHeader(),
           SizedBox(
-            height: MediaQuery.sizeOf(context).height * 0.08,
+            height: MediaQuery.sizeOf(context).height * 0.02,
           ),
           _dateTimeInfo(),
           SizedBox(
@@ -65,7 +76,7 @@ class _WeatherPageState extends State<WeatherPage> {
           ),
           _weatherIcon(),
           SizedBox(
-            height: MediaQuery.sizeOf(context).height * 0.02,
+            height: MediaQuery.sizeOf(context).height * 0.01,
           ),
           _currentTemp(),
           SizedBox(

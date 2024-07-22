@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'my_card_builder.dart';
 
 class EventList extends StatefulWidget {
@@ -44,6 +43,15 @@ class _EventListState extends State<EventList> {
             DateTime eventDateB = DateTime.parse(b['Date']);
             return eventDateA.compareTo(eventDateB);
           });
+
+          if (userDocuments.isEmpty) {
+            return const Center(
+              child: Text(
+                "Oops, you have no events",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+            );
+          }
 
           return Padding(
             padding: const EdgeInsets.only(left: 0),

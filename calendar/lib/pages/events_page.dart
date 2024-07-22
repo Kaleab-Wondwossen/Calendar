@@ -10,6 +10,7 @@ import 'package:calendar/pages/meeting_page.dart';
 import 'package:calendar/pages/people_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class Events extends StatefulWidget {
   const Events({super.key});
@@ -26,7 +27,7 @@ class _EventsState extends State<Events> {
           child: SingleChildScrollView(
         child: Column(
           children: [
-            const MyCalendar(),
+            const MyCalendar(format: CalendarFormat.week,),
             const SizedBox(
               height: 20,
             ),

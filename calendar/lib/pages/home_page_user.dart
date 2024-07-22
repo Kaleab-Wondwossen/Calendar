@@ -1,8 +1,11 @@
+import 'package:calendar/components/my_admin_events.dart';
 import 'package:calendar/pages/home_page.dart';
+import 'package:calendar/pages/loan_calculator.dart';
 import 'package:calendar/services/AuthServices/auth_gate.dart';
 import 'package:calendar/services/toggle/to_eth_or_gregorian.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../components/my_table_calendar.dart';
 import 'weather_page.dart';
 
@@ -61,7 +64,7 @@ class _HomePageUserState extends State<HomePageUser> {
               // Wrap with Builder
               builder: (context) => IconButton(
                 icon: const Icon(
-                  Icons.more,
+                  Icons.menu,
                   color: Colors.black,
                 ),
                 onPressed: () {
@@ -89,46 +92,60 @@ class _HomePageUserState extends State<HomePageUser> {
                 ),
               ),
               ListTile(
-                leading: const Icon(Icons.sports_soccer),
-                title: const Text('Premier League'),
+                leading: const Icon(Icons.credit_card),
+                title: const Text('Loan Calculator'),
                 onTap: () {
-                  // Navigate to profile page or perform action
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoanCalculator()));
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.currency_exchange),
                 title: const Text('Foreign Exchange Rate'),
-                onTap: () {
-                  // Navigate to notifications page or perform action
-                  Navigator.pop(context);
-                },
+                onTap: () {},
               ),
               ListTile(
                 leading: const Icon(Icons.cloud_circle),
                 title: const Text('Weather'),
                 onTap: () {
                   // Navigate to help page or perform action
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => const WeatherPage()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const WeatherPage()));
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.map),
                 title: const Text('Map'),
                 onTap: () {
-                  // Perform logout operation
-                  Navigator.pop(context);
+                  // Navigator.pushReplacement(context,
+                  //     MaterialPageRoute(builder: (context) => const MapPage()));
                 },
               ),
             ],
           ),
         ),
-        body: const SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Column(
             children: [
-              MyCalendar(
+              const MyCalendar(
                 height: 80,
               ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 260, 10),
+                child: Text(
+                  "Global Events",
+                  style: GoogleFonts.acme(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const AdminEvents()
             ],
           ),
         ),

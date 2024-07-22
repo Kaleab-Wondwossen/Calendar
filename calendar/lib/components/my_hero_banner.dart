@@ -1,13 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/home_page_user.dart';
 import '../pages/search_page.dart';
 
 class HeroBanner extends StatelessWidget {
   const HeroBanner({super.key});
-  Future<void> signOut() {
-    return FirebaseAuth.instance.signOut();
+  Future<void> signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePageUser()),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,15 +43,15 @@ class HeroBanner extends StatelessWidget {
                   )),
             ),
             IconButton(
-                onPressed: signOut,
+                onPressed: () {
+                  signOut(context);
+                },
                 icon: const Icon(
                   Icons.logout,
                   size: 30,
                 )),
           ],
         ),
-
-
       ],
     );
   }
