@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   late final ValueNotifier<List<Events>> selectedEvent;
   late DateTime today;
   late DateTime year;
+  late String currentUserEmail;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _HomePageState extends State<HomePage> {
         DateTime(today.year, today.month, today.day, today.hour, today.minute);
     selectedEvent = ValueNotifier(_getEventsForDay(today));
     selectedEvent.value = _getEventsForDay(today);
+    currentUserEmail = _firebaseAuth.currentUser!.email.toString();
   }
 
   void onDaySelected(DateTime day, DateTime focusedDate) {
@@ -63,6 +65,8 @@ class _HomePageState extends State<HomePage> {
       MaterialPageRoute(builder: (context) => const HomePageUser()),
     );
   }
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   List<Events> _getEventsForDay(DateTime day) {
     return evenets[day] ?? [];
@@ -250,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     children: [
                       Text(
-                        "Hello Mister Nice",
+                        "Hello ${currentUserEmail.substring(0,4)}",
                         style: GoogleFonts.acme(
                           color: Colors.black,
                           fontSize: 17,
