@@ -1,7 +1,7 @@
 import 'package:calendar/components/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:abushakir/abushakir.dart';
+import 'package:intl/intl.dart';
 import '../components/my_text_field.dart';
 import 'home_page_user.dart';
 
@@ -131,14 +131,18 @@ class _ConverterPageState extends State<ConverterPage> {
                   int month = int.parse(monthController.text);
                   int year = int.parse(yearController.text);
 
-                  // Perform the conversion
-                  ETC etDatetime = ETC(year: year, month: month, day: date);
-                  // DateTime gregorianDate = etDatetime.toGregorian();
+                  // Create an Ethiopian date
+                  DateTime ethiopianDate = DateTime.utc(year, month, date);
 
-                  // setState(() {
-                  //   convertedDate =
-                  //       '${gregorianDate.day}/${gregorianDate.month}/${gregorianDate.year}';
-                  // });
+                  // Convert Ethiopian date to Gregorian date
+                  DateFormat formatter = DateFormat('yyyy-MM-dd');
+                  String gregorianDateString = formatter.format(ethiopianDate);
+                  DateTime gregorianDate = formatter.parse(gregorianDateString);
+
+                  setState(() {
+                    convertedDate =
+                        '${gregorianDate.day}/${gregorianDate.month}/${gregorianDate.year}';
+                  });
 
                   dateController.clear();
                   monthController.clear();
@@ -170,7 +174,7 @@ class _ConverterPageState extends State<ConverterPage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
-            label: 'Calendar'
+            label: 'Calendar',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.change_circle),

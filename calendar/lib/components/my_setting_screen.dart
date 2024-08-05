@@ -1,8 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../pages/profile_page.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
+
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  late String email;
+  late String username;
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    email = _firebaseAuth.currentUser!.email!;
+    int endIndex = email.indexOf(RegExp(r'[.@]'));
+    username = (endIndex == -1) ? email : email.substring(0, endIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +61,14 @@ class SettingScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.grey[200]),
-                child: const ListTile(
+                child: ListTile(
                   leading: CircleAvatar(
                     backgroundColor: Color.fromARGB(255, 233, 176, 64),
                     // backgroundImage: NetworkImage('url'),
                   ),
-                  title: Text('Mark Adam',
+                  title: Text('${username}',
                       style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Sunny_Koelpin45@hotmail.com'),
+                  subtitle: Text(email),
                   trailing: Icon(Icons.arrow_forward_ios),
                 ),
               ),

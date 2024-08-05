@@ -14,6 +14,9 @@ import 'package:table_calendar/table_calendar.dart';
 import '../components/my_card_builder.dart';
 import '../model/events.dart';
 import '../services/FireStore/fire_store.dart';
+import 'foriegn_exchange.dart';
+import 'loan_calculator.dart';
+import 'weather_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,6 +37,8 @@ class _HomePageState extends State<HomePage> {
   late DateTime today;
   late DateTime year;
   late String currentUserEmail;
+  late String username;
+
   CalendarFormat _calendarFormat = CalendarFormat.month;
   @override
   void initState() {
@@ -48,6 +53,10 @@ class _HomePageState extends State<HomePage> {
     selectedEvent = ValueNotifier(_getEventsForDay(today));
     selectedEvent.value = _getEventsForDay(today);
     currentUserEmail = _firebaseAuth.currentUser!.email.toString();
+    int endIndex = currentUserEmail.indexOf(RegExp(r'[.@]'));
+    username = (endIndex == -1)
+        ? currentUserEmail
+        : currentUserEmail.substring(0, endIndex);
   }
 
   void onDaySelected(DateTime day, DateTime focusedDate) {
@@ -75,98 +84,160 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 233, 176, 64),
+              ),
+              child: Text(
+                'More from Calendar',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.credit_card),
+              title: const Text('Loan Calculator'),
+              onTap: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoanCalculator()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.currency_exchange),
+              title: const Text('Foreign Exchange Rate'),
+              onTap: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ForeignExchange()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.cloud_circle),
+              title: const Text('Weather'),
+              onTap: () {
+                // Navigate to help page or perform action
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const WeatherPage()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.map),
+              title: const Text('Map'),
+              onTap: () {
+                // Navigator.pushReplacement(context,
+                //     MaterialPageRoute(builder: (context) => const MapPage()));
+              },
+            ),
+          ],
+        ),
+      ),
       backgroundColor: const Color.fromARGB(255, 247, 247, 247),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 233, 176, 64),
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  scrollable: true,
-                  title: Text(
-                    'Add Event',
-                    style: GoogleFonts.acme(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 0, 160, 0),
+        child: FloatingActionButton(
+          backgroundColor: const Color.fromARGB(255, 233, 176, 64),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    scrollable: true,
+                    title: Text(
+                      'Add Event',
+                      style: GoogleFonts.acme(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  content: Container(
-                    //color: const Color.fromARGB(255, 245, 222, 174), // Change this to your preferred color
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextField(
-                          controller: eventTitleCOntroller,
-                          decoration: const InputDecoration(
-                              labelText: 'Event Title',
-                              fillColor: Colors.black,
-                              focusColor: Colors.black),
-                        ),
-                        TextField(
-                          controller: eventDescriptionCOntroller,
-                          decoration: const InputDecoration(
-                            labelText: 'Event Description',
+                    content: Container(
+                      //color: const Color.fromARGB(255, 245, 222, 174), // Change this to your preferred color
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: eventTitleCOntroller,
+                            decoration: const InputDecoration(
+                                labelText: 'Event Title',
+                                fillColor: Colors.black,
+                                focusColor: Colors.black),
                           ),
+                          TextField(
+                            controller: eventDescriptionCOntroller,
+                            decoration: const InputDecoration(
+                              labelText: 'Event Description',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: GoogleFonts.acme(
+                              color: Colors.black, fontSize: 15),
                         ),
-                      ],
-                    ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Cancel',
-                        style:
-                            GoogleFonts.acme(color: Colors.black, fontSize: 15),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        print(eventDescriptionCOntroller.toString());
-                        print(eventTitleCOntroller.toString());
-                        evenets.addAll({
-                          today: [
-                            Events(eventTitleCOntroller.text,
-                                eventDescriptionCOntroller.text)
-                          ]
-                        });
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          print(eventDescriptionCOntroller.toString());
+                          print(eventTitleCOntroller.toString());
+                          evenets.addAll({
+                            today: [
+                              Events(eventTitleCOntroller.text,
+                                  eventDescriptionCOntroller.text)
+                            ]
+                          });
 
-                        final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-                        final String currentUserId =
-                            firebaseAuth.currentUser!.uid;
+                          final FirebaseAuth firebaseAuth =
+                              FirebaseAuth.instance;
+                          final String currentUserId =
+                              firebaseAuth.currentUser!.uid;
 
-                        selectedEvent.value = _getEventsForDay(today);
-                        String date = DateFormat('yyyy-MM-dd').format(today);
-                        //ignore: no_leading_underscores_for_local_identifiers
-                        FireStoreServices _firestoreservices =
-                            FireStoreServices();
-                        _firestoreservices.add(
-                            eventTitleCOntroller.text,
-                            eventDescriptionCOntroller.text,
-                            date,
-                            currentUserId);
-                        eventDescriptionCOntroller.clear();
-                        eventTitleCOntroller.clear();
-                      },
-                      child: Text(
-                        'Add',
-                        style:
-                            GoogleFonts.acme(color: Colors.black, fontSize: 15),
+                          selectedEvent.value = _getEventsForDay(today);
+                          String date = DateFormat('yyyy-MM-dd').format(today);
+                          //ignore: no_leading_underscores_for_local_identifiers
+                          FireStoreServices _firestoreservices =
+                              FireStoreServices();
+                          _firestoreservices.add(
+                              eventTitleCOntroller.text,
+                              eventDescriptionCOntroller.text,
+                              date,
+                              currentUserId);
+                          eventDescriptionCOntroller.clear();
+                          eventTitleCOntroller.clear();
+                        },
+                        child: Text(
+                          'Add',
+                          style: GoogleFonts.acme(
+                              color: Colors.black, fontSize: 15),
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              });
-        },
-        child: const Icon(
-          Icons.add_rounded,
-          color: Colors.black,
+                    ],
+                  );
+                });
+          },
+          child: const Icon(
+            Icons.add_rounded,
+            color: Colors.black,
+          ),
         ),
       ),
       body: SafeArea(
@@ -185,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(120, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(95, 0, 0, 0),
                     child: IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -206,6 +277,12 @@ class _HomePageState extends State<HomePage> {
                         Icons.logout,
                         size: 30,
                       )),
+                  Builder(
+                      builder: (context) => IconButton(
+                          onPressed: () {
+                            Scaffold.of(context).openDrawer();
+                          },
+                          icon: Icon(Icons.menu))),
                 ],
               ),
               Row(
@@ -254,7 +331,7 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     children: [
                       Text(
-                        "Hello ${currentUserEmail.substring(0,4)}",
+                        "${username}",
                         style: GoogleFonts.acme(
                           color: Colors.black,
                           fontSize: 17,

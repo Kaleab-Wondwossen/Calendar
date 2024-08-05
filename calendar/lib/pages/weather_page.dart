@@ -1,5 +1,7 @@
 import 'package:calendar/model/consts.dart';
+import 'package:calendar/pages/home_page.dart';
 import 'package:calendar/pages/home_page_user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -32,11 +34,19 @@ class _WeatherPageState extends State<WeatherPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              User? user = FirebaseAuth.instance.currentUser;
+              if (user == null) {
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const HomePageUser()));
+                  MaterialPageRoute(builder: (context) => const HomePageUser()),
+                );
+              } else {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
+              }
             },
             icon: const Icon(Icons.arrow_back_ios)),
         title: Text(

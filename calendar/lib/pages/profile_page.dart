@@ -5,9 +5,25 @@ import '../components/my_nav_bar.dart';
 import '../components/my_profile_screen.dart';
 import '../components/my_setting_screen.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
-  
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  late String username;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    String email = _firebaseAuth.currentUser!.email!;
+    int endIndex = email.indexOf(RegExp(r'[.@]'));
+    username = (endIndex == -1) ? email : email.substring(0, endIndex);
+  }
+
   Future<void> signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(
@@ -34,13 +50,13 @@ class Profile extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            const Text(
-              'Nice Williams',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            Text(
+              username,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
             ),
-            const Text(
-              'Sunny_koelpin45@hotmail.com',
-              style: TextStyle(color: Colors.black45),
+            Text(
+              _firebaseAuth.currentUser!.email!,
+              style: const TextStyle(color: Colors.black45),
             ),
             const SizedBox(height: 20),
             Padding(

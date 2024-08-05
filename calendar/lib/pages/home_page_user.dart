@@ -1,4 +1,5 @@
 import 'package:calendar/components/my_admin_events.dart';
+import 'package:calendar/pages/foriegn_exchange.dart';
 import 'package:calendar/pages/home_page.dart';
 import 'package:calendar/pages/loan_calculator.dart';
 import 'package:calendar/services/AuthServices/auth_gate.dart';
@@ -104,7 +105,12 @@ class _HomePageUserState extends State<HomePageUser> {
               ListTile(
                 leading: const Icon(Icons.currency_exchange),
                 title: const Text('Foreign Exchange Rate'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ForeignExchange()));
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.cloud_circle),
